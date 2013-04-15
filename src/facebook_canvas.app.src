@@ -1,0 +1,12 @@
+{application, facebook_canvas, [
+    {description, ""},
+    {vsn, git},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib,
+        lager
+    ]},
+    {mod, { facebook_canvas_app, [] }},
+    {env, []}
+]}.
