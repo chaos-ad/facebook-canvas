@@ -1,0 +1,14 @@
+<html>
+<body>
+<script>
+    var app_id = {{app_id}};
+    var scope = "{{scope|join:","}}";
+    var app_namespace = "{{app_namespace}}";
+    var redirect_uri = encodeURIComponent("https://apps.facebook.com/" + app_namespace + "/");
+    window.top.location = "https://www.facebook.com/dialog/oauth"
+        + "?client_id=" + app_id
+        + "&redirect_uri=" + redirect_uri
+        + "&scope=" + scope;
+</script>
+</body>
+</html>
