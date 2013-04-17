@@ -5,7 +5,8 @@
     {applications, [
         kernel,
         stdlib,
-        lager
+        lager,
+        cowboy
     ]},
     {mod, { facebook_canvas_app, [] }},
     {env, []}
