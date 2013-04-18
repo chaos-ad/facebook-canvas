@@ -9,5 +9,14 @@
         cowboy
     ]},
     {mod, { facebook_canvas_app, [] }},
-    {env, []}
+    {env, [
+        {app_id, "id"},
+        {app_secret, "secret"},
+        {app_namespace, "namespace"},
+        {scope, [email, publish_actions]},
+
+        {listeners, 5},
+        {bind_port, 8080},
+        {bind_host, {0,0,0,0}}
+    ]}
 ]}.
