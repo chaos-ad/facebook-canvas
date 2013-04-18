@@ -2,10 +2,13 @@
 <body>
 <div id="fb-root"></div>
 <script>
-  // Additional JS functions here
+
+    var app_id = "{{app_id}}";
+    var user_id = "{{user_id}}";
+
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : {{app_id}},
+      appId      : app_id,
       status     : true,
       cookie     : true,
       xfbml      : true
@@ -30,6 +33,47 @@
      js.src = "//connect.facebook.net/en_US/all.js";
      ref.parentNode.insertBefore(js, ref);
    }(document));
+
 </script>
+<table>
+    <tbody>
+        <tr>
+            <th>Variable</th>
+            <th>Current Value</th>
+        </tr>
+        <tr>
+            <th>app_id</th>
+            <th>{{app_id}}</th>
+        </tr>
+        <tr>
+            <th>app_namespace</th>
+            <th>{{app_namespace}}</th>
+        </tr>
+        <tr>
+            <th>country</th>
+            <th>{{country}}</th>
+        </tr>
+        <tr>
+            <th>locale</th>
+            <th>{{locale}}</th>
+        </tr>
+        <tr>
+            <th>referer</th>
+            <th>{{referer}}</th>
+        </tr>
+        <tr>
+            <th>scope</th>
+            <th>{{scope}}</th>
+        </tr>
+        <tr>
+            <th>user_id</th>
+            <th>{{user_id}}</th>
+        </tr>
+        <tr>
+            <th>user_ip</th>
+            <th>{{user_ip}}</th>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -51,19 +51,53 @@ serve_canvas(Req, State=#state{endpoint=Endpoint}) ->
     case proplists:get_value(<<"signed_request">>, PostVars) of
         undefined -> error({400, <<"Invalid request">>});
         SignedRequest when is_binary(SignedRequest) ->
-            User = parse_signed_request(SignedRequest),
-            case proplists:get_value(<<"user_id">>, User) of
+            Request = parse_signed_request(SignedRequest),
+            case proplists:get_value(<<"user_id">>, Request) of
                 undefined ->
+                    {Headers, _} = cowboy_req:headers(Req),
+                    {Referer, _} = cowboy_req:header(<<"referer">>, Req),
+                    {RealUserIP, _} = cowboy_req:header(<<"x-real-ip">>, Req),
+                    [ lager:debug("\t~s: ~s", [Key,Val]) || {Key,Val} <- Headers ],
+                    lager:debug("\tRequest: ~p", [Request]),
+                    {User} = proplists:get_value(<<"user">>, Request),
+                    Locale = proplists:get_value(<<"locale">>, User),
+                    Country = proplists:get_value(<<"country">>, User),
                     {ok, Scope} = application:get_env(facebook_canvas, scope),
                     {ok, AppID} = application:get_env(facebook_canvas, app_id),
                     {ok, AppNamespace} = application:get_env(facebook_canvas, app_namespace),
-                    {ok, Content} = login_dtl:render([{app_id, AppID}, {app_namespace, AppNamespace}, {scope, Scope}]),
+                    {ok, Content} = login_dtl:render([
+                        {app_id, AppID},
+                        {app_namespace, AppNamespace},
+                        {country, Country},
+                        {locale, Locale},
+                        {referer, Referer},
+                        {scope, Scope},
+                        {user_ip, RealUserIP}
+                    ]),
                     lager:debug("Serving canvas to '~s': redirecting to authorization", [Endpoint]),
                     {ok, Content, State};
                 UserID when is_binary(UserID) ->
-                    OAuthToken = proplists:get_value(<<"oauth_token">>, User),
+                    {Headers, _} = cowboy_req:headers(Req),
+                    {Referer, _} = cowboy_req:header(<<"referer">>, Req),
+                    {RealUserIP, _} = cowboy_req:header(<<"x-real-ip">>, Req),
+                    [ lager:debug("\t~s: ~s", [Key,Val]) || {Key,Val} <- Headers ],
+                    lager:debug("\tRequest: ~p", [Request]),
+                    {User} = proplists:get_value(<<"user">>, Request),
+                    Locale = proplists:get_value(<<"locale">>, User),
+                    Country = proplists:get_value(<<"country">>, User),
+                    {ok, Scope} = application:get_env(facebook_canvas, scope),
                     {ok, AppID} = application:get_env(facebook_canvas, app_id),
-                    {ok, Content} = play_dtl:render([{app_id, AppID}, {user_id, UserID}, {oauth_token, OAuthToken}]),
+                    {ok, AppNamespace} = application:get_env(facebook_canvas, app_namespace),
+                    {ok, Content} = play_dtl:render([
+                        {app_id, AppID},
+                        {app_namespace, AppNamespace},
+                        {country, Country},
+                        {locale, Locale},
+                        {referer, Referer},
+                        {scope, Scope},
+                        {user_id, UserID},
+                        {user_ip, RealUserIP}
+                    ]),
                     lager:debug("Serving canvas to '~s': ok", [Endpoint]),
                     {ok, Content, State}
             end

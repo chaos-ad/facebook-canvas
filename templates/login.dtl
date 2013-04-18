@@ -4,11 +4,51 @@
     var app_id = {{app_id}};
     var scope = "{{scope|join:","}}";
     var app_namespace = "{{app_namespace}}";
-    var redirect_uri = encodeURIComponent("https://apps.facebook.com/" + app_namespace + "/");
+    var redirect_uri = "https://apps.facebook.com/" + app_namespace + "/";
     window.top.location = "https://www.facebook.com/dialog/oauth"
-        + "?client_id=" + app_id
-        + "&redirect_uri=" + redirect_uri
-        + "&scope=" + scope;
+        + "?client_id=" + encodeURIComponent(app_id)
+        + "&redirect_uri=" + encodeURIComponent(redirect_uri)
+        + "&scope=" + encodeURIComponent(scope);
 </script>
+<table>
+    <tbody>
+        <tr>
+            <th>Variable</th>
+            <th>Current Value</th>
+        </tr>
+        <tr>
+            <th>app_id</th>
+            <th>{{app_id}}</th>
+        </tr>
+        <tr>
+            <th>app_namespace</th>
+            <th>{{app_namespace}}</th>
+        </tr>
+        <tr>
+            <th>country</th>
+            <th>{{country}}</th>
+        </tr>
+        <tr>
+            <th>locale</th>
+            <th>{{locale}}</th>
+        </tr>
+        <tr>
+            <th>referer</th>
+            <th>{{referer}}</th>
+        </tr>
+        <tr>
+            <th>scope</th>
+            <th>{{scope}}</th>
+        </tr>
+        <tr>
+            <th>user_id</th>
+            <th>{{user_id}}</th>
+        </tr>
+        <tr>
+            <th>user_ip</th>
+            <th>{{user_ip}}</th>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>
